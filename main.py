@@ -11,6 +11,8 @@ GREEN = '\033[92m'
 YELLOW = '\033[93m'
 RESET = '\033[0m'
 
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
 words = []
 def setup():
     with open('words/en', 'r') as doc:
@@ -63,8 +65,8 @@ def find_occurrences(secret_word, user_input, have_founded=''):
 def game():
     
     print("\n\n\n\n\n\n\nWelcome to wordle, I hope you'll enjoy the game, so let's start!\n\n\n\n")
-    # secret_word = random.choice(secret_words)
-    secret_word = "Print"
+    secret_word = random.choice(secret_words)
+    # secret_word = "Print"
     have_founded = {
         0: (RESET, ''),
         1: (RESET, ''),
@@ -78,7 +80,7 @@ def game():
             sys.stdout.write('\r' + 'Enter a word (5 characters): ' + user_input + ' ' * (5 - len(user_input)))
             sys.stdout.flush()
             char = getch.getch()
-            if char == '\n' and len(user_input) != 5:
+            if char == '\n' and len(user_input) != 5 and char == ' ':
                 continue
             if ((char == '\r' or char == '\n') and user_input.lower() in words): 
                 if user_input.lower() == secret_word.lower():
@@ -107,7 +109,7 @@ def game():
             elif char == '\x7f': 
                 if len(user_input) > 0:
                     user_input = user_input[:-1]  
-            elif len(user_input) < 5 and not char.isdigit():
+            elif len(user_input) < 5 and char in alphabet:
                 if(len(user_input) == 0): char = char.upper()
                 user_input += char
     return False
@@ -119,12 +121,12 @@ def main():
         if g == True:
             sys.stdout.write('\r'+"Do you want to play another game?(y,n) "+user_input)
         else:    
-            sys.stdout.write('\r'+"Bro, you're suck at this game, why are you keep playing? Just give up and go kill yourself.Or maybe you wanna play again?(y/n) "+user_input)
+            sys.stdout.write('\r'+"Bro, you're suck at this game, why are you keep playing? Just give up and go kill yourself. Or maybe you wanna play again?(y/n) "+user_input)
 
 
         char = getch.getch()
 
-        if char == '\n' and len(user_input) != 1:
+        if (char == '\n' and len(user_input) != 1 or char==' '):
             continue
         if char == '\r' or char == '\n': 
             if user_input == 'n':
